@@ -1,0 +1,160 @@
+
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Generador de Triplos y Cuádruplos</title>
+
+    <link rel="stylesheet" href="./public/css/b5.css">
+<link rel="stylesheet" href="./public/css/main.css">    
+</head>
+
+<body>
+
+    <div class="container mt-5">
+        <div class="row justify-content-center">
+
+            <div class="col-12 text-center mb-4">
+                <h1>Triplos y Cuádruplos</h1>
+                <p>Generador de código intermedio</p>
+                <hr>
+            </div>
+            <div class="col-12 col-md-8 mb-3">
+
+                <label for="expresion" class="form-label">
+                    Ingrese una expresión matemática
+                </label>
+
+                <input
+                    type="text"
+                    class="form-control"
+                    id="expresion"
+                    placeholder="Ejemplo: r = a + (b - c) * d"
+                    autocomplete="off"
+                >
+
+            </div>
+            <div class="col-12 text-center mb-4">
+
+                <button
+                    type="button"
+                    class="btn btn-primary"
+                    id="btnGenerar"
+                >
+                    Calcular
+                </button>
+
+                <button
+                    type="button"
+                    class="btn btn-secondary"
+                    id="btnLimpiar"
+                >
+                    Limpiar
+                </button>
+
+            </div>
+            <div class="col-12 mb-3">
+                <div
+                    id="mensaje"
+                    class="text-center"
+                    role="status"
+                    aria-live="polite"
+                ></div>
+            </div>
+            <div class="col-12 mb-4">
+
+                <div class="card text-center">
+
+                    <div class="card-body">
+
+                        <h3>Resultado de la operación</h3>
+
+                        <p
+                            id="resultadoFinal"
+                            class="fs-4 fw-bold mb-0"
+                            aria-live="polite"
+                        >
+                            Aquí aparecerá el resultado
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </div>
+            <div class="col-12 mb-5">
+                <h3 class="text-center mb-3"> Tabla de Triplos </h3>
+                <div class="table-responsive">
+
+                    <table class="table table-bordered table-striped text-center">
+                        <thead class="table-dark">
+                            <tr>
+                                <th>Número</th>
+                                <th>Operador</th>
+                                <th>Argumento 1</th>
+                                <th>Argumento 2</th>
+                            </tr>
+                        </thead>
+
+                        <tbody id="tablaTriplos">
+
+                            <tr>
+                                <td colspan="4">
+                                    Ingresa una expresión para generar los triplos.
+                                </td>
+                            </tr>
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+            </div>
+            <div class="col-12 mb-5">
+
+                <h3 class="text-center mb-3">
+                    Tabla de Cuádruplos
+                </h3>
+
+                <div class="table-responsive">
+
+                    <table class="table table-bordered table-striped text-center">
+
+                        <thead class="table-dark">
+                            <tr>
+                                <th>Número</th>
+                                <th>Operador</th>
+                                <th>Argumento 1</th>
+                                <th>Argumento 2</th>
+                                <th>Resultado</th>
+                            </tr>
+                        </thead>
+
+                        <tbody id="tablaCuadruplos">
+
+                            <tr>
+                                <td colspan="5">
+                                    Ingresa una expresión para generar los cuádruplos.
+                                </td>
+                            </tr>
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+    <script src="./public/js/index.js"></script>
+
+</body>
+
+</html>
