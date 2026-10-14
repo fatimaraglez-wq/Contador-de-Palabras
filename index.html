@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="es">
 
@@ -6,155 +5,72 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Generador de Triplos y Cuádruplos</title>
+    <title>Traductor de Código Morse</title>
 
     <link rel="stylesheet" href="./public/css/b5.css">
-<link rel="stylesheet" href="./public/css/main.css">    
+    <link rel="stylesheet" href="./public/css/main.css">
 </head>
 
-<body>
+<body class="bg-light">
 
-    <div class="container mt-5">
+    <div class="container py-5">
+
         <div class="row justify-content-center">
-
-            <div class="col-12 text-center mb-4">
-                <h1>Triplos y Cuádruplos</h1>
-                <p>Generador de código intermedio</p>
+             <div class="col-12 text-center mb-4">
+                <h1 class="fw-bold">Traductor de Código Morse</h1>
                 <hr>
             </div>
-            <div class="col-12 col-md-8 mb-3">
 
-                <label for="expresion" class="form-label">
-                    Ingrese una expresión matemática
-                </label>
+            <div class="col-12 col-md-9 col-lg-7">
 
-                <input
-                    type="text"
-                    class="form-control"
-                    id="expresion"
-                    placeholder="Ejemplo: r = a + (b - c) * d"
-                    autocomplete="off"
-                >
+                <div class="card shadow-sm">
+                    <div class="card-body p-4">
 
-            </div>
-            <div class="col-12 text-center mb-4">
+                        <label for="tipoConversion" class="form-label fw-bold">
+                            Tipo de conversión
+                        </label>
 
-                <button
-                    type="button"
-                    class="btn btn-primary"
-                    id="btnGenerar"
-                >
-                    Calcular
-                </button>
+                        <select id="tipoConversion" class="form-select mb-4">
+                            <option value="textoMorse">
+                                Texto normal a código Morse
+                            </option>
+                            <option value="morseTexto">
+                                Código Morse a texto normal
+                            </option>
+                        </select>
 
-                <button
-                    type="button"
-                    class="btn btn-secondary"
-                    id="btnLimpiar"
-                >
-                    Limpiar
-                </button>
+                        <label for="textoEntrada" class="form-label fw-bold">
+                            Texto de entrada
+                        </label>
 
-            </div>
-            <div class="col-12 mb-3">
-                <div
-                    id="mensaje"
-                    class="text-center"
-                    role="status"
-                    aria-live="polite"
-                ></div>
-            </div>
-            <div class="col-12 mb-4">
+                        <textarea id="textoEntrada" class="form-control mb-3" rows="4" placeholder="Escribe aquí el texto que deseas convertir..." autocomplete="off" spellcheck="false"></textarea>
 
-                <div class="card text-center">
+                        <div class="d-flex justify-content-center flex-wrap gap-2 mb-3">
 
-                    <div class="card-body">
+                            <button type="button" class="btn btn-primary" id="btnConvertir"> Convertir </button>
 
-                        <h3>Resultado de la operación</h3>
+                            <button type="button" class="btn btn-secondary" id="btnLimpiar"> Limpiar </button>
+                        </div>
 
-                        <p
-                            id="resultadoFinal"
-                            class="fs-4 fw-bold mb-0"
+                        <div
+                            id="mensaje"
+                            class="text-center mb-3"
+                            role="status"
                             aria-live="polite"
-                        >
-                            Aquí aparecerá el resultado
-                        </p>
+                        ></div>
+
+                        <label for="resultado" class="form-label fw-bold">
+                            Resultado
+                        </label>
+
+                        <textarea id="resultado"class="form-control" rows="4" placeholder="Aquí aparecerá el resultado..." readonly aria-live="polite"></textarea>
 
                     </div>
-
                 </div>
-
             </div>
-            <div class="col-12 mb-5">
-                <h3 class="text-center mb-3"> Tabla de Triplos </h3>
-                <div class="table-responsive">
-
-                    <table class="table table-bordered table-striped text-center">
-                        <thead class="table-dark">
-                            <tr>
-                                <th>Número</th>
-                                <th>Operador</th>
-                                <th>Argumento 1</th>
-                                <th>Argumento 2</th>
-                            </tr>
-                        </thead>
-
-                        <tbody id="tablaTriplos">
-
-                            <tr>
-                                <td colspan="4">
-                                    Ingresa una expresión para generar los triplos.
-                                </td>
-                            </tr>
-
-                        </tbody>
-
-                    </table>
-
-                </div>
-
-            </div>
-            <div class="col-12 mb-5">
-
-                <h3 class="text-center mb-3">
-                    Tabla de Cuádruplos
-                </h3>
-
-                <div class="table-responsive">
-
-                    <table class="table table-bordered table-striped text-center">
-
-                        <thead class="table-dark">
-                            <tr>
-                                <th>Número</th>
-                                <th>Operador</th>
-                                <th>Argumento 1</th>
-                                <th>Argumento 2</th>
-                                <th>Resultado</th>
-                            </tr>
-                        </thead>
-
-                        <tbody id="tablaCuadruplos">
-
-                            <tr>
-                                <td colspan="5">
-                                    Ingresa una expresión para generar los cuádruplos.
-                                </td>
-                            </tr>
-
-                        </tbody>
-
-                    </table>
-
-                </div>
-
-            </div>
-
+         </div>
         </div>
-
-    </div>
-    <script src="./public/js/index.js"></script>
+        <script src="./dist/bundle.js"></script>
 
 </body>
-
 </html>
