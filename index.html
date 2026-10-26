@@ -1,76 +1,66 @@
 <!DOCTYPE html>
 <html lang="es">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <title>Traductor de Código Morse</title>
-
+    <title>Buscador de Palabras</title>
     <link rel="stylesheet" href="./public/css/b5.css">
     <link rel="stylesheet" href="./public/css/main.css">
 </head>
 
 <body class="bg-light">
-
     <div class="container py-5">
-
         <div class="row justify-content-center">
-             <div class="col-12 text-center mb-4">
-                <h1 class="fw-bold">Traductor de Código Morse</h1>
+            <div class="col-12 text-center mb-4">
+                <h1 class="fw-bold">Buscador de Palabras</h1>
                 <hr>
             </div>
 
             <div class="col-12 col-md-9 col-lg-7">
-
                 <div class="card shadow-sm">
                     <div class="card-body p-4">
 
-                        <label for="tipoConversion" class="form-label fw-bold">
-                            Tipo de conversión
-                        </label>
-
-                        <select id="tipoConversion" class="form-select mb-4">
-                            <option value="textoMorse">
-                                Texto normal a código Morse
-                            </option>
-                            <option value="morseTexto">
-                                Código Morse a texto normal
-                            </option>
-                        </select>
-
                         <label for="textoEntrada" class="form-label fw-bold">
-                            Texto de entrada
+                            Introdusca un texto 
                         </label>
 
-                        <textarea id="textoEntrada" class="form-control mb-3" rows="4" placeholder="Escribe aquí el texto que deseas convertir..." autocomplete="off" spellcheck="false"></textarea>
+                        <textarea id="textoEntrada" class="form-control mb-3" rows="5" placeholder="Escribe o pega tu texto aquí..."></textarea>
+                        <label for="palabraBuscar" class="form-label fw-bold">
+                            Palabra o carácter a buscar
+                        </label>
 
-                        <div class="d-flex justify-content-center flex-wrap gap-2 mb-3">
+                        <input type="text" id="palabraBuscar" class="form-control mb-3" placeholder="Escribe lo que deseas buscar...">
 
-                            <button type="button" class="btn btn-primary" id="btnConvertir"> Convertir </button>
+                        <div class="d-flex justify-content-center gap-2 mb-3">
+                            <button type="button" class="btn btn-primary" id="btnBuscar">
+                                Buscar
+                            </button>
 
-                            <button type="button" class="btn btn-secondary" id="btnLimpiar"> Limpiar </button>
+                            <button type="button" class="btn btn-secondary" id="btnLimpiar">
+                                Limpiar
+                            </button>
                         </div>
 
-                        <div
-                            id="mensaje"
-                            class="text-center mb-3"
-                            role="status"
-                            aria-live="polite"
-                        ></div>
+                        <div id="mensaje" class="alert text-center" role="status" aria-live="polite" hidden></div>
 
-                        <label for="resultado" class="form-label fw-bold">
-                            Resultado
+                        <label class="form-label fw-bold">
+                            Texto procesado
                         </label>
 
-                        <textarea id="resultado"class="form-control" rows="4" placeholder="Aquí aparecerá el resultado..." readonly aria-live="polite"></textarea>
+                        <div id="resultado" class="form-control resultado" aria-live="polite" style="white-space: pre-wrap; min-height: 100px;"></div>
+
+                        <p
+                            id="totalEncontrado"
+                            class="fw-bold text-center mt-3"
+                        ></p>
 
                     </div>
                 </div>
             </div>
-         </div>
         </div>
-        <script src="./dist/bundle.js"></script>
+    </div>
 
+    <script src="./dist/bundle.js"></script>
 </body>
 </html>
+

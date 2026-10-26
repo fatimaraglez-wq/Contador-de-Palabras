@@ -1,204 +1,102 @@
 "use strict";
 
-const tipoConversion = document.getElementById("tipoConversion");
 const textoEntrada = document.getElementById("textoEntrada");
+const palabraBuscar = document.getElementById("palabraBuscar");
 const resultado = document.getElementById("resultado");
-const btnConvertir = document.getElementById("btnConvertir");
+const totalEncontrado = document.getElementById("totalEncontrado");
+const btnBuscar = document.getElementById("btnBuscar");
 const btnLimpiar = document.getElementById("btnLimpiar");
-const btnCopiar = document.getElementById("btnCopiar");
 const mensaje = document.getElementById("mensaje");
 
-// Equivalencias del alfabeto Morse.
-const codigoMorse = {
-    A: ".-", B: "-...", C: "-.-.", D: "-..",
-    E: ".", F: "..-.", G: "--.", H: "....",
-    I: "..", J: ".---", K: "-.-", L: ".-..",
-    M: "--", N: "-.", O: "---", P: ".--.",
-    Q: "--.-", R: ".-.", S: "...", T: "-",
-    U: "..-", V: "...-", W: ".--", X: "-..-",
-    Y: "-.--", Z: "--..",
-
-    0: "-----", 1: ".----", 2: "..---",
-    3: "...--", 4: "....-", 5: ".....",
-    6: "-....", 7: "--...", 8: "---..",
-    9: "----.",
-
-    ".": ".-.-.-",
-    ",": "--..--",
-    "?": "..--..",
-    "!": "-.-.--",
-    "'": ".----.",
-    "/": "-..-.",
-    "(": "-.--.",
-    ")": "-.--.-",
-    ":": "---...",
-    ";": "-.-.-.",
-    "=": "-...-",
-    "+": ".-.-.",
-    "-": "-....-",
-    "_": "..--.-",
-    "\"": ".-..-.",
-    "@": ".--.-.",
-    "&": ".-..."
-};
-
-// Muestra mensajes de éxito o error.
 function mostrarMensaje(texto, tipo) {
     mensaje.textContent = texto;
-    mensaje.className = "text-center mb-3 " + tipo;
+    mensaje.className = "alert text-center " + tipo;
+    mensaje.hidden = texto === "";
 }
 
-// Convierte texto normal a código Morse.
-function convertirTextoAMorse(texto) {
-    const caracteres = Array.from(texto.toUpperCase());
-    const codigos = [];
-
-    caracteres.forEach(function (caracter) {
-        if (caracter === " ") {
-            codigos.push("/");
-        } else if (Object.hasOwn(codigoMorse, caracter)) {
-            codigos.push(codigoMorse[caracter]);
-        } else {
-            throw new Error(
-                "El carácter \"" + caracter + "\" no está permitido."
-            );
-        }
-    });
-
-    return codigos.join(" ");
+function escaparRegex(texto) {
+    return texto.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 }
 
-// Convierte código Morse a texto normal.
-function convertirMorseATexto(texto) {
-    const palabras = texto.trim().split(/\s*\/\s*/);
-    const resultadoTexto = [];
+function buscarPalabra() {
+    const texto = textoEntrada.value;
+    const palabra = palabraBuscar.value.trim();
 
-    palabras.forEach(function (palabra) {
-        if (palabra.trim() === "") {
-            throw new Error("Hay una palabra vacía en el código Morse.");
-        }
+    resultado.replaceChildren();
+    totalEncontrado.textContent = "";
 
-        const codigos = palabra.trim().split(/\s+/);
-        const letras = [];
-
-        codigos.forEach(function (codigo) {
-            const caracter = Object.keys(codigoMorse).find(
-                function (letra) {
-                    return codigoMorse[letra] === codigo;
-                }
-            );
-
-            if (caracter === undefined) {
-                throw new Error(
-                    "El código Morse \"" + codigo + "\" no es válido."
-                );
-            }
-
-            letras.push(caracter);
-        });
-
-        resultadoTexto.push(letras.join(""));
-    });
-
-    return resultadoTexto.join(" ");
-}
-
-// Ejecuta la conversión seleccionada.
-function convertir() {
-    const entrada = textoEntrada.value.trim();
-
-    resultado.value = "";
-
-    if (entrada === "") {
+    if (texto.trim() === "" || palabra === "") {
         mostrarMensaje(
-            "Debes escribir un texto o código Morse.",
-            "text-danger"
+            "Escribe un texto y la palabra que deseas buscar.",
+            "alert-warning"
         );
-        textoEntrada.focus();
         return;
     }
 
-    try {
-        let conversion;
+    const expresion = new RegExp(escaparRegex(palabra), "gi");
+    const coincidencias = texto.match(expresion);
+    const total = coincidencias ? coincidencias.length : 0;
 
-        if (tipoConversion.value === "textoMorse") {
-            conversion = convertirTextoAMorse(entrada);
-        } else {
-            conversion = convertirMorseATexto(entrada);
-        }
+    const fragmento = document.createDocumentFragment();
+    let posicion = 0;
+    let coincidencia;
 
-        resultado.value = conversion;
-
-        mostrarMensaje(
-            "Conversión realizada correctamente.",
-            "text-success"
+    while ((coincidencia = expresion.exec(texto)) !== null) {
+        fragmento.appendChild(
+            document.createTextNode(
+                texto.slice(posicion, coincidencia.index)
+            )
         );
-    } catch (error) {
-        mostrarMensaje(error.message, "text-danger");
+
+        const resaltado = document.createElement("mark");
+        resaltado.textContent = coincidencia[0];
+        fragmento.appendChild(resaltado);
+
+        posicion = coincidencia.index + coincidencia[0].length;
+    }
+
+    fragmento.appendChild(
+        document.createTextNode(texto.slice(posicion))
+    );
+
+    resultado.appendChild(fragmento);
+
+    totalEncontrado.textContent =
+        `Número de veces que aparece: ${total}`;
+
+    if (total > 0) {
+        mostrarMensaje(
+            "¡Búsqueda realizada correctamente!",
+            "alert-success"
+        );
+    } else {
+        mostrarMensaje(
+            "No se encontró la palabra o carácter buscado.",
+            "alert-danger"
+        );
     }
 }
 
-// Limpia los campos y los mensajes.
 function limpiar() {
     textoEntrada.value = "";
-    resultado.value = "";
+    palabraBuscar.value = "";
+    resultado.replaceChildren();
+    totalEncontrado.textContent = "";
     mostrarMensaje("", "");
     textoEntrada.focus();
 }
 
-// Copia el resultado.
-async function copiarResultado() {
-    if (resultado.value.trim() === "") {
-        mostrarMensaje(
-            "No hay ningún resultado para copiar.",
-            "text-danger"
-        );
-        return;
-    }
-
-    try {
-        await navigator.clipboard.writeText(resultado.value);
-        mostrarMensaje(
-            "Resultado copiado correctamente.",
-            "text-success"
-        );
-    } catch (error) {
-        resultado.focus();
-        resultado.select();
-
-        const copiado = document.execCommand("copy");
-
-        mostrarMensaje(
-            copiado
-                ? "Resultado copiado correctamente."
-                : "No se pudo copiar. Selecciona el resultado manualmente.",
-            copiado ? "text-success" : "text-danger"
-        );
-    }
-}
-
-// Eventos de los botones.
-btnConvertir.addEventListener("click", convertir);
+btnBuscar.addEventListener("click", buscarPalabra);
 btnLimpiar.addEventListener("click", limpiar);
-btnCopiar.addEventListener("click", copiarResultado);
 
-// Permite cambiar la indicación según la conversión.
-tipoConversion.addEventListener("change", function () {
-    resultado.value = "";
-    mostrarMensaje("", "");
-
-    if (tipoConversion.value === "textoMorse") {
-        textoEntrada.placeholder =
-            "Escribe el texto que deseas convertir...";
-    } else {
-        textoEntrada.placeholder =
-            "Usa puntos, guiones, espacios y / para separar palabras...";
+textoEntrada.addEventListener("keydown", function (evento) {
+    if (evento.ctrlKey && evento.key === "Enter") {
+        buscarPalabra();
     }
 });
 
-// Permite convertir usando Ctrl + Enter.
-textoEntrada.addEventListener("keydown", function (evento) {
-    if (evento.ctrlKey && evento.key === "Enter") {
-        convertir();
+palabraBuscar.addEventListener("keydown", function (evento) {
+    if (evento.key === "Enter") {
+        buscarPalabra();
     }
 });
